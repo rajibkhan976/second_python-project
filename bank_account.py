@@ -111,8 +111,6 @@ def handleOption(option, fileName):
         withdrawAmount(fileName)
     elif option == 'e':
         endApplication()
-    else:
-        print("Closing account and all transactions")
 
 def initiateApp():
     accountNumber = input("Enter account number: ")
