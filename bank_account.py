@@ -32,6 +32,11 @@ def retrieveAccData(accFile):
                     accData.append(item)
     return accData
 
+def saveAccData(accFile, data):
+    saveData = open(accFile, "a")
+    saveData.write(data['trans_type'] + ", " + data['trans_time'] + ", " + data['prev_bal'] + ", " + data['trans_amount'] + ", " + data['balance'] + '\n')
+    saveData.close()
+
 def depositAmount(accFile):
     amount = input("Enter amount to deposit:  $")
     if float(amount) > 0:
@@ -45,14 +50,13 @@ def depositAmount(accFile):
                     'trans_amount': '$' + str(float(amount)),
                     'balance': '$' + str(newBalance)
                 }
-                updateAcc = open(accFile, "a")
-                updateAcc.write(newDeposit['trans_type'] + ", " + newDeposit['trans_time'] + ", " + newDeposit['prev_bal'] + ", " + newDeposit['trans_amount'] + ", " + newDeposit['balance'] + '\n')
-                updateAcc.close()
+                saveAccData(accFile, newDeposit)
                 print("Balance before deposit is:  " + accData[-1]['balance'])
                 print("Deposit transaction completed....")
             
     else:
-        print('Invalid amount!')
+        print('$' + str(float(amount)) + ' is NOT valid amount to deposit. This amount is NOT deposited')
+        print("Deposit transaction completed....")
                     
 def displayTransactions(accFile):
     if path.exists(accFile):
@@ -75,20 +79,37 @@ def withdrawAmount(accFile):
                     print("... transaction completed....")
                 else:
                     newBalance = float(accData[-1]['balance'][1:]) - float(amount)
-                    newDeposit = {
+                    newWithdraw = {
                         'trans_type': "withdraw amount",
                         'trans_time': str(timeNow.strftime("%d")) + "-" + str(timeNow.strftime("%m")) + "-" + str(timeNow.strftime("%Y")) + " at " + str(timeNow.strftime("%X")),
                         'prev_bal': '$' + str(accData[-1]['balance'][1:]),
                         'trans_amount': '$' + str(float(amount)),
                         'balance': '$' + str(newBalance)
                     }
-                    updateAcc = open(accFile, "a")
-                    updateAcc.write(newDeposit['trans_type'] + ", " + newDeposit['trans_time'] + ", " + newDeposit['prev_bal'] + ", " + newDeposit['trans_amount'] + ", " + newDeposit['balance'] + '\n')
-                    updateAcc.close()
+                    saveAccData(accFile, newWithdraw)
                     print("... transaction completed....")
     else:
-        print('Invalid amount!')
+        if path.exists(accFile):
+            accData = retrieveAccData(accFile)
+            print("Amount balance before withdrawing the amount:  " + accData[-1]['balance'])
+            print('$' + str(float(amount)) + ' is NOT valid amount to withdraw')
+            print("... transaction completed....")
 
+def endApplication():
+    print("Closing account and all transactions")
+    exit()
+
+def handleOption(option, fileName):
+    if option == 'd':
+        depositAmount(fileName)
+    elif option == 't':
+        displayTransactions(fileName)
+    elif option == 'w':
+        withdrawAmount(fileName)
+    elif option == 'e':
+        endApplication()
+    else:
+        print("Closing account and all transactions")
 
 def initiateApp():
     accountNumber = input("Enter account number: ")
@@ -104,28 +125,11 @@ def initiateApp():
             'balance': '$' + str(0.00)
         }
         fileName =  str(newAccNumber) + ".dat"
-        accFile = open(fileName, "a")
-        accFile.write(accOpenData['trans_type'] + ", " + accOpenData['trans_time'] + ", " + accOpenData['prev_bal'] + ", " + accOpenData['trans_amount'] + ", " + accOpenData['balance'] + '\n')
-        accFile.close()
+        saveAccData(fileName, accOpenData)
         option = showMenuOptions()
-        if option == 'd':
-            depositAmount(fileName)
-        elif option == 't':
-            displayTransactions(fileName)
-        elif option == 'w':
-            withdrawAmount(fileName)
-        else:
-            print("Closing account and all transactions")
+        handleOption(option, fileName)
     else:
         option = showMenuOptions()
-        if option == 'd':
-            depositAmount(fileName)
-        elif option == 't':
-            displayTransactions(fileName)
-        elif option == 'w':
-            withdrawAmount(fileName)
-        else:
-            print("Closing account and all transactions")
-
+        handleOption(option, fileName)
 
 initiateApp()
