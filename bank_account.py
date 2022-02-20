@@ -60,7 +60,6 @@ def depositAmount(accFile):
                 saveAccData(accFile, newDeposit)
                 print("Balance before deposit is:  " + accData[-1]['balance'])
                 print("Deposit transaction completed....")
-            
     else:
         print('$' + str(float(amount)) + ' is NOT valid amount to deposit. This amount is NOT deposited')
         print("Deposit transaction completed....")
