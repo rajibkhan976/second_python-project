@@ -133,4 +133,5 @@ def initiateApp():
         option = showMenuOptions()
         handleOption(option, fileName)
 
-initiateApp()
+if __name__ == '__main__':
+    initiateApp()
