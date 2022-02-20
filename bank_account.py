@@ -37,6 +37,10 @@ def saveAccData(accFile, data):
     saveData.write(data['trans_type'] + ", " + data['trans_time'] + ", " + data['prev_bal'] + ", " + data['trans_amount'] + ", " + data['balance'] + '\n')
     saveData.close()
 
+def transTime():
+    currentTime = str(timeNow.strftime("%d")) + "-" + str(timeNow.strftime("%m")) + "-" + str(timeNow.strftime("%Y")) + " at " + str(timeNow.strftime("%X"))
+    return currentTime
+
 def depositAmount(accFile):
     amount = input("Enter amount to deposit:  $")
     if float(amount) > 0:
@@ -45,7 +49,7 @@ def depositAmount(accFile):
                 newBalance = float(accData[-1]['balance'][1:]) + float(amount)
                 newDeposit = {
                     'trans_type': "deposit amount",
-                    'trans_time': str(timeNow.strftime("%d")) + "-" + str(timeNow.strftime("%m")) + "-" + str(timeNow.strftime("%Y")) + " at " + str(timeNow.strftime("%X")),
+                    'trans_time': transTime(),
                     'prev_bal': '$' + str(accData[-1]['balance'][1:]),
                     'trans_amount': '$' + str(float(amount)),
                     'balance': '$' + str(newBalance)
@@ -81,7 +85,7 @@ def withdrawAmount(accFile):
                     newBalance = float(accData[-1]['balance'][1:]) - float(amount)
                     newWithdraw = {
                         'trans_type': "withdraw amount",
-                        'trans_time': str(timeNow.strftime("%d")) + "-" + str(timeNow.strftime("%m")) + "-" + str(timeNow.strftime("%Y")) + " at " + str(timeNow.strftime("%X")),
+                        'trans_time': transTime(),
                         'prev_bal': '$' + str(accData[-1]['balance'][1:]),
                         'trans_amount': '$' + str(float(amount)),
                         'balance': '$' + str(newBalance)
@@ -119,7 +123,7 @@ def initiateApp():
         newAccNumber = input("Enter account number: ")
         accOpenData = {
             'trans_type': "open account",
-            'trans_time': str(timeNow.strftime("%d")) + "-" + str(timeNow.strftime("%m")) + "-" + str(timeNow.strftime("%Y")) + " at " + str(timeNow.strftime("%X")),
+            'trans_time': transTime(),
             'prev_bal': '$' + str(0.00),
             'trans_amount': '$' + str(0.00),
             'balance': '$' + str(0.00)
