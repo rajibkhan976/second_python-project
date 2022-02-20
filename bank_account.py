@@ -1,8 +1,6 @@
 import datetime
 from os import path
 
-timeNow = datetime.datetime.now()
-
 def showMenuOptions():
     isCorrectOption = False
     while not isCorrectOption:
@@ -38,8 +36,9 @@ def saveAccData(accFile, data):
     saveData.close()
 
 def transTime():
-    currentTime = str(timeNow.strftime("%d")) + "-" + str(timeNow.strftime("%m")) + "-" + str(timeNow.strftime("%Y")) + " at " + str(timeNow.strftime("%X"))
-    return currentTime
+    timeNow = datetime.datetime.now()
+    formattedTime = str(timeNow.strftime("%d")) + "-" + str(timeNow.strftime("%m")) + "-" + str(timeNow.strftime("%Y")) + " at " + str(timeNow.strftime("%X"))
+    return formattedTime
 
 def depositAmount(accFile):
     amount = input("Enter amount to deposit:  $")
