@@ -23,7 +23,7 @@ def retrieveAccData(accFile):
     fields = ['trans_type', 'trans_time', 'prev_bal', 'trans_amount', 'balance']
     with open(accFile) as fileDb:
         for row in fileDb:
-            data = row.strip().split(', ', 5)
+            data = row.strip().split(', ', len(fields))
             i = 0
             while i < len(fields):
                 item[fields[i]] = data[i]
