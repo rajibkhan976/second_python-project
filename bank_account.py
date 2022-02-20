@@ -15,6 +15,7 @@ def showMenuOptions():
         else:
             print("Enter valid choice, 'd', 't', 'w' or 'e'....")
 
+
 def retrieveAccData(accFile):
     accData = []
     item = {}
@@ -30,15 +31,18 @@ def retrieveAccData(accFile):
                     accData.append(item)
     return accData
 
+
 def saveAccData(accFile, data):
     saveData = open(accFile, "a")
     saveData.write(data['trans_type'] + ", " + data['trans_time'] + ", " + data['prev_bal'] + ", " + data['trans_amount'] + ", " + data['balance'] + '\n')
     saveData.close()
 
+
 def transTime():
     timeNow = datetime.datetime.now()
     formattedTime = str(timeNow.strftime("%d")) + "-" + str(timeNow.strftime("%m")) + "-" + str(timeNow.strftime("%Y")) + " at " + str(timeNow.strftime("%X"))
     return formattedTime
+
 
 def depositAmount(accFile):
     amount = input("Enter amount to deposit:  $")
@@ -60,6 +64,7 @@ def depositAmount(accFile):
     else:
         print('$' + str(float(amount)) + ' is NOT valid amount to deposit. This amount is NOT deposited')
         print("Deposit transaction completed....")
+
                     
 def displayTransactions(accFile):
     if path.exists(accFile):
@@ -69,6 +74,7 @@ def displayTransactions(accFile):
         readAccData = open(accFile, 'r')
         print(readAccData.read())
         print('End of All Transactions...')
+
 
 def withdrawAmount(accFile):
     amount = input("Enter amount to withdraw:  $")
@@ -98,9 +104,11 @@ def withdrawAmount(accFile):
             print('$' + str(float(amount)) + ' is NOT valid amount to withdraw')
             print("... transaction completed....")
 
+
 def endApplication():
     print("Closing account and all transactions")
     exit()
+
 
 def handleOption(option, fileName):
     if option == 'd':
@@ -111,6 +119,7 @@ def handleOption(option, fileName):
         withdrawAmount(fileName)
     elif option == 'e':
         endApplication()
+
 
 def initiateApp():
     accountNumber = input("Enter account number: ")
@@ -132,6 +141,7 @@ def initiateApp():
     else:
         option = showMenuOptions()
         handleOption(option, fileName)
+
 
 if __name__ == '__main__':
     initiateApp()
